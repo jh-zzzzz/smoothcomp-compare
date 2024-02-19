@@ -39,7 +39,7 @@ type ArrayMemeber = {
 };
 
 const opponentsForId1: string[] = [];
-getData(id1).then((json) => {
+const promOfId1 = getData(id1).then((json) => {
   for (let i in json.data) {
     for (let j in json.data[i].registrations) {
       for (let k in json.data[i].registrations[j].matches) {
@@ -54,34 +54,40 @@ getData(id1).then((json) => {
 });
 
 const opponentsForId2: string[] = [];
-getData(id2)
-  .then((json) => {
-    for (let i in json.data) {
-      for (let j in json.data[i].registrations) {
-        for (let k in json.data[i].registrations[j].matches) {
-          const outcome: boolean =
-            json.data[i].registrations[j].matches[k].is_winner;
-          const name: string =
-            json.data[i].registrations[j].matches[k].opponents[0].name;
-          opponentsForId2.push(name);
-        }
+const promOfId2 = getData(id2).then((json) => {
+  for (let i in json.data) {
+    for (let j in json.data[i].registrations) {
+      for (let k in json.data[i].registrations[j].matches) {
+        const outcome: boolean =
+          json.data[i].registrations[j].matches[k].is_winner;
+        const name: string =
+          json.data[i].registrations[j].matches[k].opponents[0].name;
+        opponentsForId2.push(name);
       }
     }
-  })
-  .then(() =>
-    console.log(opponentsForId1.filter((opp) => opponentsForId2.includes(opp))),
-  );
+  }
+});
+// .then(() =>
+//   console.log(opponentsForId1.filter((opp) => opponentsForId2.includes(opp))),
+// );
+const promises = Promise.all([promOfId2, promOfId2]);
+promises.then((_) => {
+  console.log(opponentsForId1);
+  console.log(opponentsForId2);
+  const oppsInCommon = new Set();
+  opponentsForId1
+    .filter((opp) => opponentsForId2.includes(opp))
+    .forEach((elem) => oppsInCommon.add(elem));
+  console.log(oppsInCommon);
+});
 
-console.log(opponentsForId1);
-console.log(opponentsForId2);
+// const oppsInCommon: string[] = []; /*opponentsForId1.filter((name) => {
+//   return opponentsForId2.indexOf(name) !== -1;
+// }); /*.filter((opp) =>
+//   opponentsForId2.includes(opp),
+// );*/
+// // for (let i = 0; i < opponentsForId1.length; i++) {
+// //   if (i includes)
+// // }
 
-const oppsInCommon: string[] = []; /*opponentsForId1.filter((name) => {
-  return opponentsForId2.indexOf(name) !== -1;
-}); /*.filter((opp) =>
-  opponentsForId2.includes(opp),
-);*/
-// for (let i = 0; i < opponentsForId1.length; i++) {
-//   if (i includes)
-// }
-
-console.log(oppsInCommon);
+// // console.log(oppsInCommon);
