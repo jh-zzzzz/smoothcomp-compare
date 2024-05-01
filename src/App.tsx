@@ -1,22 +1,13 @@
 import { useState } from "react";
 import "./App.css";
 import { CompetitorsForm } from "./Components/CompetitorsForm";
+import { CompetitorInfo } from "./types";
 
-export type Competitor = {
-  id: number;
-  name: string;
-  opps: Opponent[];
-};
 
-export type Opponent = {
-  id: number;
-  name: string;
-  isWinner: boolean;
-};
 
 function App() {
-  const [competitor1, setCompetitor1] = useState<Competitor>();
-  const [competitor2, setCompetitor2] = useState<Competitor>();
+  const [competitor1, setCompetitor1] = useState<CompetitorInfo>();
+  const [competitor2, setCompetitor2] = useState<CompetitorInfo>();
 
   return (
     <>
@@ -26,13 +17,13 @@ function App() {
       />
       {competitor1 && (
         <ul>
-          {competitor1.opps.map((opp) => (
+          {competitor1.matches.map((match) => (
             <li>
-              Name: {opp.name}
+              Name: {match.opponent.name}
               <br />
-              ID: {opp.id}
+              ID: {match.opponent.id}
               <br />
-              Outcome: {opp.isWinner ? "competitor1" : opp.name} won the match
+              Outcome: {match.isWinner ? "competitor1" : match.opponent.name} won the match
               <br />
             </li>
           ))}
@@ -41,13 +32,13 @@ function App() {
       <hr />
       {competitor2 && (
         <ul>
-          {competitor2.opps.map((opp) => (
+          {competitor2.matches.map((match) => (
             <li>
-              Name: {opp.name}
+              Name: {match.opponent.name}
               <br />
-              ID: {opp.id}
+              ID: {match.opponent.id}
               <br />
-              Outcome: {opp.isWinner ? "competitor2" : opp.name} won the match
+              Outcome: {match.isWinner ? "competitor2" : match.opponent.name} won the match
               <br />
             </li>
           ))}

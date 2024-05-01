@@ -28,8 +28,8 @@ export const CompetitorsForm = ({
       getMatchesForCompetitor(competitor1.value),
       getMatchesForCompetitor(competitor2.value)
     ]).then(matches => {
-      setCompetitor1({ name: "", id: competitor1.value, opps: matches[0] });
-      setCompetitor2({ name: "", id: competitor2.value, opps: matches[1] });
+      setCompetitor1({ name: "", id: competitor1.value, matches: matches[0] });
+      setCompetitor2({ name: "", id: competitor2.value, matches: matches[1] });
     });
   };
 
