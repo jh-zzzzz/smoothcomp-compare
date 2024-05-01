@@ -6,8 +6,6 @@ export async function getMatchesForCompetitor(competitorId: string) {
 
 async function getMatches(input: string): Promise<any[]> {
     const data = await fetch(input).then(resp => resp.json());
-    const matches = parseMatches(data);
-    console.log(matches);
     return data.next_page_url
         ? parseMatches(data).concat(await getMatches(data.next_page_url))
         : parseMatches(data);
