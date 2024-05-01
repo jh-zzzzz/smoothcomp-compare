@@ -17,16 +17,20 @@ export const CompetitorsForm = ({
   setCompetitor1,
   setCompetitor2,
 }: CompetitorsFormProps) => {
+
   const handleFormSubmit = (e: CompetitorsFormEvent) => {
     e.preventDefault();
     const { competitor1, competitor2 } = e.target;
     if (!competitor1.value || !competitor2.value) {
       // TODO: disallow empty id
     }
-    getMatchesForCompetitor(competitor1.value)
-      .then(opps => setCompetitor1({ name: "", id: competitor1.value, opps: opps }));
-    getMatchesForCompetitor(competitor2.value)
-      .then(opps => setCompetitor2({ name: "", id: competitor2.value, opps: opps }));
+    Promise.all([
+      getMatchesForCompetitor(competitor1.value),
+      getMatchesForCompetitor(competitor2.value)
+    ]).then(matches => {
+      setCompetitor1({ name: "", id: competitor1.value, opps: matches[0] });
+      setCompetitor2({ name: "", id: competitor2.value, opps: matches[1] });
+    });
   };
 
   return (
