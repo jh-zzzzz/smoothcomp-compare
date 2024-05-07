@@ -15,10 +15,10 @@ function App() {
     if (competitor1 && competitor2) {
       const oppsForCompetitor1: number[] = [];
       const oppsForCompetitor2: number[] = [];
-  
+
       competitor1!.matches.forEach(match => oppsForCompetitor1.push(match.opponent.id));
       competitor2!.matches.forEach(match => oppsForCompetitor2.push(match.opponent.id));
-  
+
       setOppsInCommon(oppsForCompetitor1.filter(opp => oppsForCompetitor2.includes(opp)));
     }
   }, [competitor1, competitor2]);
@@ -44,14 +44,18 @@ function App() {
       {competitor1 && (
         <ul>
           {competitor1.matches.map((match) => (
-            <li>
-              Name: {match.opponent.name}
+            <>
+              <li>
+                Name: {match.opponent.name}
+                <br />
+                ID: {match.opponent.id}
+                <br />
+                Outcome: {match.isWinner ? "competitor1" : match.opponent.name} won the match
+                <br />
+                Date: {new Date(match.timestamp).toLocaleString('en-US', {day: 'numeric', month: 'long', year: 'numeric'})}
+              </li>
               <br />
-              ID: {match.opponent.id}
-              <br />
-              Outcome: {match.isWinner ? "competitor1" : match.opponent.name} won the match
-              <br />
-            </li>
+            </>
           ))}
         </ul>
       )}
@@ -59,14 +63,17 @@ function App() {
       {competitor2 && (
         <ul>
           {competitor2.matches.map((match) => (
-            <li>
-              Name: {match.opponent.name}
+            <>
+              <li>
+                Name: {match.opponent.name}
+                <br />
+                ID: {match.opponent.id}
+                <br />
+                Outcome: {match.isWinner ? "competitor2" : match.opponent.name} won the match
+                <br />
+              </li>
               <br />
-              ID: {match.opponent.id}
-              <br />
-              Outcome: {match.isWinner ? "competitor2" : match.opponent.name} won the match
-              <br />
-            </li>
+            </>
           ))}
         </ul>
       )}
