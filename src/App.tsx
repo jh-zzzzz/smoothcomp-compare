@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./App.css";
-import { CompetitorsForm } from "./Components/CompetitorsForm";
+import { CompetitorsForm } from "./components/CompetitorsForm";
 import { CompetitorInfo } from "./types";
-import { CompareCard } from "./Components/CompareCard";
+import { CompareCard } from "./components/CompareCard";
 
 
 
