@@ -32,7 +32,7 @@ async function getMatches(input: string): Promise<Match[]> {
         : parseMatches(data);
 }
 
-function parseMatches(data) {
+function parseMatches(data: any) {
     const rarr: Match[] = [];
     for (let i in data.data) {
         for (let j in data.data[i].registrations) {
