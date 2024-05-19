@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import { CompetitorsForm } from "./Components/CompetitorsForm";
 import { CompetitorInfo } from "./types";
@@ -9,9 +9,6 @@ import { CompareCard } from "./Components/CompareCard";
 function App() {
   const [competitor1, setCompetitor1] = useState<CompetitorInfo>();
   const [competitor2, setCompetitor2] = useState<CompetitorInfo>();
-  
-
-  
 
   return (
     <>

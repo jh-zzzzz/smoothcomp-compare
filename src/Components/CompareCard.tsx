@@ -15,10 +15,33 @@ export const CompareCard = ({ competitors }: { competitors: CompetitorInfo[] }) 
 
   }, competitors);
 
+  function timestampToDate(timestamp: number) {
+    return new Date(timestamp)
+      .toLocaleString('en-US', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }
+      );
+  }
+
   return (
     <ul>
       {oppsInCommon && [...oppsInCommon].map(opp => (
-        <li key={opp}>{opp}</li>
+        <>
+          <li key={opp}>
+            {opp}
+            {competitors.map(competitor => (
+              <ul key={competitor.id}>
+                {competitor.matches.filter(match => match.opponent.id === opp).map(match => (
+                  <li key={match.opponent.id}>
+                    {competitor.name} {match.isWinner ? "won" : "lost"} against {match.opponent.name} on {timestampToDate(match.timestamp)}
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </li>
+        </>
       ))}
     </ul>
   );
