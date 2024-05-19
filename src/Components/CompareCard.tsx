@@ -28,20 +28,18 @@ export const CompareCard = ({ competitors }: { competitors: CompetitorInfo[] }) 
   return (
     <ul>
       {oppsInCommon && [...oppsInCommon].map(opp => (
-        <>
           <li key={opp}>
             {opp}
-            {competitors.map(competitor => (
-              <ul key={competitor.id}>
-                {competitor.matches.filter(match => match.opponent.id === opp).map(match => (
-                  <li key={match.opponent.id}>
-                    {competitor.name} {match.isWinner ? "won" : "lost"} against {match.opponent.name} on {timestampToDate(match.timestamp)}
-                  </li>
-                ))}
-              </ul>
+            <ul>
+            {competitors.map(competitor => (competitor.matches.filter(match => match.opponent.id === opp)
+              .map(match => (
+                <li key={match.opponent.id.toString() + match.timestamp.toString() + competitor.id.toString()}>
+                  {competitor.name} {match.isWinner ? "won" : "lost"} against {match.opponent.name} on {timestampToDate(match.timestamp)}
+                </li>
+              ))
             ))}
+            </ul>
           </li>
-        </>
       ))}
     </ul>
   );
