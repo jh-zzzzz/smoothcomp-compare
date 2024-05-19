@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 import { CompetitorsForm } from "./components/CompetitorsForm";
 import { CompetitorInfo } from "./types";
 import { CompareCard } from "./components/CompareCard";
