@@ -22,7 +22,7 @@ async function getMatches(input: string): Promise<Match[]> {
     let data;
     while (!data) {
         try {
-            data = await fetch(input).then(data => data.json());
+            data = await fetch(input).then(resp => resp.json());
         } catch (_e) {
             await sleep(800);
         }
