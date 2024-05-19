@@ -2,7 +2,7 @@ import { Match } from "./types";
 
 const BASE_URL = 'https://smoothcomp.com/en/profile';
 
-const NAME_INSIDE_TITLE_TAG_PATTERN: RegExp = /<title>\s+(.*?) - .*\/title>/s;
+const NAME_INSIDE_TITLE_TAG_PATTERN: RegExp = /<title>\s+(.*?) - .*<\/title>/s;
 const sleep = (duration: number) => { return new Promise(resolve => setTimeout(resolve, duration)) };
 
 export async function getNameForCompetitor(competitorId: string) {
