@@ -8,7 +8,7 @@ import { CompetitorInfo } from "./types";
 function App() {
   const [competitor1, setCompetitor1] = useState<CompetitorInfo>();
   const [competitor2, setCompetitor2] = useState<CompetitorInfo>();
-  const [oppsInCommon, setOppsInCommon] = useState<number[]>();
+  const [oppsInCommon, setOppsInCommon] = useState<Set<number>>();
 
   useEffect(() => {
 
@@ -19,7 +19,7 @@ function App() {
       competitor1!.matches.forEach(match => oppsForCompetitor1.push(match.opponent.id));
       competitor2!.matches.forEach(match => oppsForCompetitor2.push(match.opponent.id));
 
-      setOppsInCommon(oppsForCompetitor1.filter(opp => oppsForCompetitor2.includes(opp)));
+      setOppsInCommon(new Set(oppsForCompetitor1.filter(opp => oppsForCompetitor2.includes(opp))));
     }
   }, [competitor1, competitor2]);
 
@@ -32,7 +32,7 @@ function App() {
       <br />
       {oppsInCommon && (
         <ul>
-          {oppsInCommon.map(opp => (
+          {[...oppsInCommon].map(opp => (
             <li key={opp}>{opp}</li>
           ))}
         </ul>
