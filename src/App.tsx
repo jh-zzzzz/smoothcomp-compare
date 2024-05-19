@@ -42,40 +42,46 @@ function App() {
       <br />
       <hr />
       {competitor1 && (
-        <ul>
-          {competitor1.matches.map((match) => (
-            <>
-              <li>
-                Name: {match.opponent.name}
+        <>
+          <p>{competitor1.name}</p>
+          <ul>
+            {competitor1.matches.map((match) => (
+              <>
+                <li>
+                  Name: {match.opponent.name}
+                  <br />
+                  ID: {match.opponent.id}
+                  <br />
+                  Outcome: {match.isWinner ? "competitor1" : match.opponent.name} won the match
+                  <br />
+                  Date: {new Date(match.timestamp).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </li>
                 <br />
-                ID: {match.opponent.id}
-                <br />
-                Outcome: {match.isWinner ? "competitor1" : match.opponent.name} won the match
-                <br />
-                Date: {new Date(match.timestamp).toLocaleString('en-US', {day: 'numeric', month: 'long', year: 'numeric'})}
-              </li>
-              <br />
-            </>
-          ))}
-        </ul>
+              </>
+            ))}
+          </ul>
+        </>
       )}
       <hr />
       {competitor2 && (
-        <ul>
-          {competitor2.matches.map((match) => (
-            <>
-              <li>
-                Name: {match.opponent.name}
+        <>
+          <p>{competitor2.name}</p>
+          <ul>
+            {competitor2.matches.map((match) => (
+              <>
+                <li>
+                  Name: {match.opponent.name}
+                  <br />
+                  ID: {match.opponent.id}
+                  <br />
+                  Outcome: {match.isWinner ? "competitor2" : match.opponent.name} won the match
+                  <br />
+                </li>
                 <br />
-                ID: {match.opponent.id}
-                <br />
-                Outcome: {match.isWinner ? "competitor2" : match.opponent.name} won the match
-                <br />
-              </li>
-              <br />
-            </>
-          ))}
-        </ul>
+              </>
+            ))}
+          </ul>
+        </>
       )}
       {/* <CompareCard /> */}
     </>

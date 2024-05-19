@@ -1,5 +1,5 @@
 import { FormEvent } from "react";
-import { getMatchesForCompetitor } from "../http";
+import { getMatchesForCompetitor, getNameForCompetitor } from "../http";
 
 type CompetitorsFormProps = {
   setCompetitor1: Function;
@@ -25,11 +25,13 @@ export const CompetitorsForm = ({
       // TODO: disallow empty id
     }
     Promise.all([
+      getNameForCompetitor(competitor1.value),
       getMatchesForCompetitor(competitor1.value),
+      getNameForCompetitor(competitor2.value),
       getMatchesForCompetitor(competitor2.value)
-    ]).then(matches => {
-      setCompetitor1({ name: "", id: competitor1.value, matches: matches[0] });
-      setCompetitor2({ name: "", id: competitor2.value, matches: matches[1] });
+    ]).then(info => {
+      setCompetitor1({ name: info[0], id: competitor1.value, matches: info[1] });
+      setCompetitor2({ name: info[2], id: competitor2.value, matches: info[3] });
     });
   };
 

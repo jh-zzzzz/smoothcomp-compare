@@ -2,12 +2,31 @@ import { Match } from "./types";
 
 const BASE_URL = 'https://smoothcomp.com/en/profile';
 
+const NAME_INSIDE_TITLE_TAG_PATTERN: RegExp = /<title>\s+(.*?) - .*\/title>/s;
+const sleep = (duration: number) => { return new Promise(resolve => setTimeout(resolve, duration)) };
+
+export async function getNameForCompetitor(competitorId: string) {
+    return fetch(`${BASE_URL}/${competitorId}`)
+        .then(resp => resp.text())
+        .then(html => {
+            const name = html.match(NAME_INSIDE_TITLE_TAG_PATTERN);
+            return name ? name[1] : "Name unknown";
+        })
+}
+
 export async function getMatchesForCompetitor(competitorId: string) {
     return getMatches(`${BASE_URL}/${competitorId}/events?page=1`);
 }
 
 async function getMatches(input: string): Promise<Match[]> {
-    const data = await fetch(input).then(resp => resp.json());
+    let data;
+    while (!data) {
+        try {
+            data = await fetch(input).then(data => data.json());
+        } catch (_e) {
+            await sleep(800);
+        }
+    }
     return data.next_page_url
         ? parseMatches(data).concat(await getMatches(data.next_page_url))
         : parseMatches(data);
