@@ -1,5 +1,6 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { getMatchesForCompetitor, getNameForCompetitor } from "../http";
+import { CompetitorInput } from "./CompetitorInput";
 
 type CompetitorsFormProps = {
   setCompetitor1: Function;
@@ -17,6 +18,7 @@ export const CompetitorsForm = ({
   setCompetitor1,
   setCompetitor2,
 }: CompetitorsFormProps) => {
+  const [competitorNames, setCompetitorsNames] = useState<string[]>([]);
 
   const handleFormSubmit = (e: CompetitorsFormEvent) => {
     e.preventDefault();
@@ -30,6 +32,7 @@ export const CompetitorsForm = ({
       getNameForCompetitor(competitor2.value),
       getMatchesForCompetitor(competitor2.value)
     ]).then(info => {
+      setCompetitorsNames([info[0], info[2]]);
       setCompetitor1({ name: info[0], id: competitor1.value, matches: info[1] });
       setCompetitor2({ name: info[2], id: competitor2.value, matches: info[3] });
     });
@@ -38,10 +41,8 @@ export const CompetitorsForm = ({
   return (
     <>
       <form onSubmit={handleFormSubmit}>
-        <label htmlFor="competitor1-input">competitor 1</label>
-        <input type="text" id="competitor1" />
-        <label htmlFor="competitor2-input">competitor 2</label>
-        <input type="text" id="competitor2" />
+        <CompetitorInput num={1} name={competitorNames[0]} />
+        <CompetitorInput num={2} name={competitorNames[1]} />
         <input type="submit" value="Compare!" />
       </form>
     </>
