@@ -7,6 +7,10 @@ export const CompetitorInput = ({num, name}: {num: number; name?: string}) => {
     const [competitorName, setCompetitorName] = useState<string>("");
     const competitorIdInput = useRef<HTMLInputElement>(null);
 
+    useEffect(() => {
+        name && setCompetitorName(name);
+    }, [name])
+
     const getName: MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
         if (competitorIdInput) getNameForCompetitor(competitorIdInput.current!.value)
