@@ -1,9 +1,9 @@
-import { MouseEventHandler, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { getNameForCompetitor } from "../http";
 
 
 
-export const CompetitorInput = ({num}: {num: number}, {name}: {name: string}) => {
+export const CompetitorInput = ({num, name}: {num: number; name?: string}) => {
     const [competitorName, setCompetitorName] = useState<string>("");
     const competitorIdInput = useRef<HTMLInputElement>(null);
 
