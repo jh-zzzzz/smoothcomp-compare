@@ -38,9 +38,9 @@ export const CompetitorsForm = ({
   return (
     <>
       <form onSubmit={handleFormSubmit}>
-        <label htmlFor="competitor1-input">competitor 1</label>
+        <label htmlFor="competitor1">competitor 1</label>
         <input type="text" id="competitor1" />
-        <label htmlFor="competitor2-input">competitor 2</label>
+        <label htmlFor="competitor2">competitor 2</label>
         <input type="text" id="competitor2" />
         <input type="submit" value="Compare!" />
       </form>
