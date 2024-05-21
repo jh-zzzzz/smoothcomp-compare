@@ -73,6 +73,12 @@ describe("getOpps()", () => {
         const actual = getOpps(mockCompetitorsInfo[0]);
         const expected = [1, 2, 3];
         expect(actual).toEqual(expected);
+    }),
+    it("gets opps despite duplicate", () => {
+        const actual = getOpps(mockCompetitorsInfo[2]);
+        const expected = [2, 1523]
+        expect(actual).toHaveLength(2);
+        expect(actual).toEqual(expected);
     })
 })
 // test("true is true", () => {
