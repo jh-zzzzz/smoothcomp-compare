@@ -1,6 +1,6 @@
 import { describe, expect, it, test } from "vitest";
 import { CompetitorInfo } from "../src/types";
-import { getOpps } from "../src/util";
+import { getOpps, getOppsInCommon } from "../src/util";
 
 const mockCompetitorsInfo: CompetitorInfo[] = [
     {
@@ -81,7 +81,14 @@ describe("getOpps()", () => {
         expect(actual).toEqual(expected);
     })
 })
-// test("true is true", () => {
-//     const truuu: boolean = true;
-//     expect(truuu).toBe(true);
-// });
+
+describe("getOppsInCommon()", () => {
+    it("gets opps in common", () => {
+        const actual = getOppsInCommon(mockCompetitorsInfo);
+        const expected = new Map([
+            [1, [10, 20]],
+            [2, [10, 20, 30]]
+        ]);
+        expect(actual).toEqual(expected);
+    })
+})
