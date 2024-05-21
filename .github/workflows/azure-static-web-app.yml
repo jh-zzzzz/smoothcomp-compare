@@ -20,6 +20,7 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ORANGE_GLACIER_05F565D03 }}
+          app_build_command: npm test && npm run build
           action: "upload"
           app_location: "/"
           output_location: "dist"
