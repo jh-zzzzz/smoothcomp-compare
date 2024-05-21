@@ -4,7 +4,7 @@ export function getOpps(competitorInfo: CompetitorInfo) {
     return [...new Set(competitorInfo.matches.map(match => match.opponent.id))];
 }
 
-export function getOppsInCommon(competitorsInfo: CompetitorInfo[])/* : Map<number, number[]> */ {
+export function getOppsInCommon(competitorsInfo: CompetitorInfo[]): Map<number, number[]> {
     const competitorsPerOpp = new Map<number, number[]>();
     let opps: number[] = [];
     for (const c of competitorsInfo) {
