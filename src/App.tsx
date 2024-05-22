@@ -6,18 +6,16 @@ import { CompareCard } from "./Components/CompareCard";
 
 
 function App() {
-  const [competitor1, setCompetitor1] = useState<CompetitorInfo>();
-  const [competitor2, setCompetitor2] = useState<CompetitorInfo>();
+  const [competitors, setCompetitors] = useState<CompetitorInfo[]>();
 
   return (
     <>
       <CompetitorsForm
-        setCompetitor1={setCompetitor1}
-        setCompetitor2={setCompetitor2}
+        setCompetitors={setCompetitors}
       />
       <br />
-      {competitor1 && competitor2 && (
-        <CompareCard competitors={[competitor1, competitor2]} />
+      {competitors && (
+        <CompareCard competitors={competitors} />
       )}
     </>
   );

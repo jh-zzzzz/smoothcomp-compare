@@ -6,9 +6,7 @@ export const CompareCard = ({ competitors }: { competitors: CompetitorInfo[] }) 
   const [oppsInCommon, setOppsInCommon] = useState<Array<number>>();
 
   useEffect(() => {
-
     setOppsInCommon(Array.from(getOppsInCommon(competitors).keys()));
-
   }, competitors);
 
   function timestampToDate(timestamp: number) {

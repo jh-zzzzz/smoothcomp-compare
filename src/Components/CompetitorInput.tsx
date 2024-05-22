@@ -1,9 +1,9 @@
-import { MouseEventHandler, useEffect, useRef, useState } from "react";
+import { ChangeEvent, Dispatch, MouseEventHandler, useEffect, useRef, useState } from "react";
 import { getNameForCompetitor } from "../http";
 
 
 
-export const CompetitorInput = ({num, name}: {num: number; name?: string}) => {
+export const CompetitorInput = ({num, state, name}: {num: number; state: {inputs: string[], setter: Dispatch<React.SetStateAction<string[]>>}; name?: string}) => {
     const [competitorName, setCompetitorName] = useState<string>("");
     const competitorIdInput = useRef<HTMLInputElement>(null);
 
@@ -17,10 +17,17 @@ export const CompetitorInput = ({num, name}: {num: number; name?: string}) => {
             .then(name => setCompetitorName(name));
     }
 
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+        e.preventDefault();
+        let data = [...state.inputs];
+        data[index] = e.target.value;
+        state.setter(data);
+    }
+
     return (
         <div>
-            <label htmlFor={`competitor${num}`}>competitor {num}</label>
-            <input ref={competitorIdInput} type="text" id={`competitor${num}`} />
+            <label htmlFor={`competitor${num}`}>competitor {num + 1}</label>
+            <input ref={competitorIdInput} type="text" id={`competitor${num}`} onChange={e => handleOnChange(e, num)} />
             <button type="button" onClick={getName}>Check</button>
             <br />
             <label htmlFor={`name${num}`}>Name: </label>

@@ -1,11 +1,7 @@
-import { FormEvent, useState } from "react";
-import { getMatchesForCompetitor, getNameForCompetitor } from "../http";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { getCompetitorInfo, getMatchesForCompetitor, getNameForCompetitor } from "../http";
 import { CompetitorInput } from "./CompetitorInput";
-
-type CompetitorsFormProps = {
-  setCompetitor1: Function;
-  setCompetitor2: Function;
-};
+import { CompetitorInfo } from "../types";
 
 type CompetitorsFormEvent = FormEvent<HTMLFormElement> & {
   target: {
@@ -15,34 +11,26 @@ type CompetitorsFormEvent = FormEvent<HTMLFormElement> & {
 };
 
 export const CompetitorsForm = ({
-  setCompetitor1,
-  setCompetitor2,
-}: CompetitorsFormProps) => {
+  setCompetitors
+}: { setCompetitors: Dispatch<SetStateAction<CompetitorInfo[] | undefined>> }) => {
   const [competitorNames, setCompetitorsNames] = useState<string[]>([]);
+  const [inputs, setInputs] = useState<string[]>(["", ""]);
 
   const handleFormSubmit = (e: CompetitorsFormEvent) => {
     e.preventDefault();
-    const { competitor1, competitor2 } = e.target;
-    if (!competitor1.value || !competitor2.value) {
-      // TODO: disallow empty id
-    }
-    Promise.all([
-      getNameForCompetitor(competitor1.value),
-      getMatchesForCompetitor(competitor1.value),
-      getNameForCompetitor(competitor2.value),
-      getMatchesForCompetitor(competitor2.value)
-    ]).then(info => {
-      setCompetitorsNames([info[0], info[2]]);
-      setCompetitor1({ name: info[0], id: competitor1.value, matches: info[1] });
-      setCompetitor2({ name: info[2], id: competitor2.value, matches: info[3] });
-    });
-  };
+    Promise.all(Array.from(inputs.map(input => getCompetitorInfo(input))))
+      .then(info => {
+        setCompetitors(info);
+        setCompetitorsNames(info.map(i => i.name));
+      });
+    };
 
   return (
     <>
       <form onSubmit={handleFormSubmit}>
-        <CompetitorInput num={1} name={competitorNames[0]} />
-        <CompetitorInput num={2} name={competitorNames[1]} />
+        {inputs.map((_input, index) => (
+          <CompetitorInput key={index} num={index} state={{ inputs: inputs, setter: setInputs }} name={competitorNames[index]} />
+        ))}
         <input type="submit" value="Compare!" />
       </form>
     </>
