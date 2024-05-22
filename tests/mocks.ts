@@ -8,17 +8,17 @@ export const mockCompetitorsInfo: CompetitorInfo[] = [
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 1}
+                opponent: { name: "", id: 1 }
             },
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 2}
+                opponent: { name: "", id: 2 }
             },
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 3}
+                opponent: { name: "", id: 3 }
             },
         ]
     },
@@ -29,17 +29,17 @@ export const mockCompetitorsInfo: CompetitorInfo[] = [
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 1}
+                opponent: { name: "", id: 1 }
             },
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 2}
+                opponent: { name: "", id: 2 }
             },
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 1337}
+                opponent: { name: "", id: 1337 }
             },
         ]
     },
@@ -50,17 +50,17 @@ export const mockCompetitorsInfo: CompetitorInfo[] = [
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 2}
+                opponent: { name: "", id: 2 }
             },
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 2}
+                opponent: { name: "", id: 2 }
             },
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 1523}
+                opponent: { name: "", id: 1523 }
             },
         ]
     }
@@ -74,12 +74,12 @@ export const noOppsInCommon: CompetitorInfo[] = [
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 1}
+                opponent: { name: "", id: 1 }
             },
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 2}
+                opponent: { name: "", id: 2 }
             }
         ]
     },
@@ -90,13 +90,19 @@ export const noOppsInCommon: CompetitorInfo[] = [
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 3}
+                opponent: { name: "", id: 3 }
             },
             {
                 isWinner: false,
                 timestamp: 0,
-                opponent: {name: "", id: 4}
+                opponent: { name: "", id: 4 }
             }
         ]
     }
 ];
+
+export const competitorWithNoMatches: CompetitorInfo = {
+    id: 11,
+    name: "",
+    matches: []
+};
