@@ -1,4 +1,4 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { Dispatch, FormEvent, MouseEvent, SetStateAction, useState } from "react";
 import { getCompetitorInfo, getMatchesForCompetitor, getNameForCompetitor } from "../http";
 import { CompetitorInput } from "./CompetitorInput";
 import { CompetitorInfo } from "../types";
@@ -25,6 +25,11 @@ export const CompetitorsForm = ({
       });
     };
 
+    const addInput = (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      setInputs([...inputs, ""]);
+    };
+
   return (
     <>
       <form onSubmit={handleFormSubmit}>
@@ -32,6 +37,7 @@ export const CompetitorsForm = ({
           <CompetitorInput key={index} num={index} state={{ inputs: inputs, setter: setInputs }} name={competitorNames[index]} />
         ))}
         <input type="submit" value="Compare!" />
+        <button onClick={addInput}>Add input</button>
       </form>
     </>
   );
