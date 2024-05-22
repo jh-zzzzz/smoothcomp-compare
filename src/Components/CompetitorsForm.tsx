@@ -1,5 +1,5 @@
 import { Dispatch, FormEvent, MouseEvent, SetStateAction, useState } from "react";
-import { getCompetitorInfo, getMatchesForCompetitor, getNameForCompetitor } from "../http";
+import { getCompetitorInfo, } from "../http";
 import { CompetitorInput } from "./CompetitorInput";
 import { CompetitorInfo } from "../types";
 
