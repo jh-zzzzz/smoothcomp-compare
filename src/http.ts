@@ -1,9 +1,22 @@
-import { Match } from "./types";
+import { CompetitorInfo, Match } from "./types";
 
 const BASE_URL = 'https://smoothcomp.com/en/profile';
 
 const NAME_INSIDE_TITLE_TAG_PATTERN: RegExp = /<title>\s+(.*?) - .*<\/title>/s;
 const sleep = (duration: number) => { return new Promise(resolve => setTimeout(resolve, duration)) };
+
+export function getCompetitorInfo(competitorId: string): Promise<CompetitorInfo> {
+    return Promise.all([
+        getNameForCompetitor(competitorId),
+        getMatchesForCompetitor(competitorId)
+    ]).then(res => {
+        return {
+            name: res[0],
+            id: Number(competitorId),
+            matches: res[1]
+        }
+    });
+}
 
 export async function getNameForCompetitor(competitorId: string) {
     return fetch(`${BASE_URL}/${competitorId}`)
