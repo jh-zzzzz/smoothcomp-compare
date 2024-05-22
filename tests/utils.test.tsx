@@ -68,6 +68,41 @@ const mockCompetitorsInfo: CompetitorInfo[] = [
     }
 ]
 
+const noOppsInCommon = [
+    {
+        id: 100,
+        name: "",
+        matches: [
+            {
+                isWinner: false,
+                timestamp: 0,
+                opponent: {name: "", id: 1}
+            },
+            {
+                isWinner: false,
+                timestamp: 0,
+                opponent: {name: "", id: 2}
+            }
+        ]
+    },
+    {
+        id: 200,
+        name: "",
+        matches: [
+            {
+                isWinner: false,
+                timestamp: 0,
+                opponent: {name: "", id: 3}
+            },
+            {
+                isWinner: false,
+                timestamp: 0,
+                opponent: {name: "", id: 4}
+            }
+        ]
+    }
+]
+
 describe("getOpps()", () => {
     it("gets opps", () => {
         const actual = getOpps(mockCompetitorsInfo[0]);
@@ -89,6 +124,11 @@ describe("getOppsInCommon()", () => {
             [1, [10, 20]],
             [2, [10, 20, 30]]
         ]);
+        expect(actual).toEqual(expected);
+    }),
+    it("handles competitors with no opps in common", () => {
+        const actual = getOppsInCommon(noOppsInCommon);
+        const expected = new Map<number, number[]>();
         expect(actual).toEqual(expected);
     })
 })
