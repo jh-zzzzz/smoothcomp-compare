@@ -23,18 +23,27 @@ export const CompetitorsForm = ({
         setCompetitors(info);
         setCompetitorsNames(info.map(i => i.name));
       });
-    };
+  };
 
-    const addInput = (e: MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setInputs([...inputs, ""]);
-    };
+  const addInput = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setInputs([...inputs, ""]);
+  };
+
+  const removeInput = async (e: MouseEvent<HTMLButtonElement>, index: number) => {
+    e.preventDefault();
+    if (inputs.length > 2) {
+      let data = [...inputs];
+      data.splice(index, 1);
+      setInputs(data);
+    }
+  };
 
   return (
     <>
       <form onSubmit={handleFormSubmit}>
         {inputs.map((_input, index) => (
-          <CompetitorInput key={index} num={index} state={{ inputs: inputs, setter: setInputs }} name={competitorNames[index]} />
+          <CompetitorInput key={index} num={index} state={{ inputs: inputs, setter: setInputs }} removeInput={removeInput} name={competitorNames[index]} />
         ))}
         <input type="submit" value="Compare!" />
         <button onClick={addInput}>Add input</button>
