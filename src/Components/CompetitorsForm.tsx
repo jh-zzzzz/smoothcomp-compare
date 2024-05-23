@@ -30,7 +30,7 @@ export const CompetitorsForm = ({
     setInputs([...inputs, ""]);
   };
 
-  const removeInput = async (e: MouseEvent<HTMLButtonElement>, index: number) => {
+  const removeInput = (e: MouseEvent<HTMLButtonElement>, index: number) => {
     e.preventDefault();
     if (inputs.length > 2) {
       let data = [...inputs];
