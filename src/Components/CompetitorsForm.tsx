@@ -23,6 +23,8 @@ export const CompetitorsForm = ({
   });
   const { fields, remove, append, update } = useFieldArray({ control, name: "inputs" });
 
+  const MAY_REMOVE_INPUTS_CONDITION: boolean = fields.length > 2;
+
   const handleFormSubmit = (data: InputType) => {
     const promises: Promise<CompetitorInfo>[] = Array.from(
       data.inputs.map(({ input }: { input: string }) => getCompetitorInfo(input))
@@ -40,7 +42,7 @@ export const CompetitorsForm = ({
 
   const removeInput = (e: MouseEvent<HTMLButtonElement>, index: number) => {
     e.preventDefault();
-    remove(index);
+    MAY_REMOVE_INPUTS_CONDITION && remove(index);
   }
 
   return (
@@ -54,7 +56,7 @@ export const CompetitorsForm = ({
             <br />
             <label htmlFor={`name${index}`}>Name: </label>
             <input type="text" id={`name${index}`} disabled value={input.name} readOnly={true} />
-            <button type="button" onClick={(e) => removeInput(e, index)}>Remove input {index + 1}</button>
+            <button type="button" disabled={!MAY_REMOVE_INPUTS_CONDITION} onClick={(e) => removeInput(e, index)}>Remove input {index + 1}</button>
           </div>
         ))}
         <input type="submit" value="Compare!" />
