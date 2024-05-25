@@ -22,13 +22,13 @@ export async function getNameForCompetitor(competitorId: string) {
     let name;
     while (!name) {
         try {
-            fetch(`${BASE_URL}/${competitorId}`)
+            name = await fetch(`${BASE_URL}/${competitorId}`)
                 .then(resp => resp.text())
                 .then(html => {
                     const parsedName = html.match(NAME_INSIDE_TITLE_TAG_PATTERN);
-                    name = parsedName ? parsedName[1] : "Name unknown (private profile)";
+                    return parsedName ? parsedName[1] : "Name unknown (private profile)";
                 });
-        } catch (e) {
+        } catch (_e) {
             await sleep(800);
         }
     }
