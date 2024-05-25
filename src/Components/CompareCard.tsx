@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
 import { CompetitorInfo } from "../types";
+import { getOppsInCommon } from "../util";
 
 export const CompareCard = ({ competitors }: { competitors: CompetitorInfo[] }) => {
-  const [oppsInCommon, setOppsInCommon] = useState<Set<number>>();
+  const [oppsInCommon, setOppsInCommon] = useState<Array<number>>();
 
   useEffect(() => {
-    const oppsForCompetitor1: number[] = [];
-    const oppsForCompetitor2: number[] = [];
-
-    competitors[0].matches.forEach(match => oppsForCompetitor1.push(match.opponent.id));
-    competitors[1].matches.forEach(match => oppsForCompetitor2.push(match.opponent.id));
-
-    setOppsInCommon(new Set(oppsForCompetitor1.filter(opp => oppsForCompetitor2.includes(opp))));
-
+    setOppsInCommon(Array.from(getOppsInCommon(competitors).keys()));
   }, competitors);
 
   function timestampToDate(timestamp: number) {
@@ -27,7 +21,7 @@ export const CompareCard = ({ competitors }: { competitors: CompetitorInfo[] }) 
 
   return (
     <ul>
-      {oppsInCommon && [...oppsInCommon].map(opp => (
+      {oppsInCommon && oppsInCommon.map(opp => (
           <li key={opp}>
             {opp}
             <ul>
