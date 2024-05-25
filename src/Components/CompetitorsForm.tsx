@@ -1,33 +1,27 @@
-import { Dispatch, FormEvent, MouseEvent, SetStateAction, useState } from "react";
+import { Dispatch, MouseEvent, SetStateAction } from "react";
 import { getCompetitorInfo, } from "../http";
-import { CompetitorInput } from "./CompetitorInput";
 import { CompetitorInfo } from "../types";
 import { useFieldArray, useForm } from "react-hook-form";
 
-type CompetitorsFormEvent = FormEvent<HTMLFormElement> & {
-  target: {
-    competitor1: { value: string };
-    competitor2: { value: string };
-  };
-};
-
 type InputType = {
-  inputs: { input: string; }[];
+  inputs: {
+    input: string;
+    name: string;
+  }[];
 }
 
 export const CompetitorsForm = ({
   setCompetitors
 }: { setCompetitors: Dispatch<SetStateAction<CompetitorInfo[] | undefined>> }) => {
-  const [competitorNames, setCompetitorsNames] = useState<string[]>(["", ""]);
   const { control, register, handleSubmit } = useForm<InputType>({
     defaultValues: {
       inputs: [
-        { input: "" },
-        { input: "" }
+        { input: "", name: "" },
+        { input: "", name: "" }
       ]
     }
   });
-  const { fields, remove, append } = useFieldArray({ control, name: "inputs" });
+  const { fields, remove, append, update } = useFieldArray({ control, name: "inputs" });
 
   const handleFormSubmit = (data: InputType) => {
     const promises: Promise<CompetitorInfo>[] = Array.from(
@@ -35,15 +29,19 @@ export const CompetitorsForm = ({
     );
     Promise.all(promises).then((info) => {
       setCompetitors(info);
-      setCompetitorsNames(info.map(c => c.name));
+      info.forEach((i, index) => update(index, {input: i.id.toString(), name: i.name}));
     });
   };
 
   const addInput = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    append({ input: "" });
-    setCompetitorsNames([...competitorNames, ""]);
+    append({ input: "", name: "" });
   };
+
+  const removeInput = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+    e.preventDefault();
+    remove(index);
+  }
 
   return (
     <>
@@ -55,8 +53,8 @@ export const CompetitorsForm = ({
             <button type="button">Check</button>
             <br />
             <label htmlFor={`name${index}`}>Name: </label>
-            <input type="text" id={`name${index}`} disabled value={competitorNames[index]} />
-            <button type="button" onClick={() => remove(index)}>Remove input {index + 1}</button>
+            <input type="text" id={`name${index}`} disabled value={input.name} readOnly={true} />
+            <button type="button" onClick={(e) => removeInput(e, index)}>Remove input {index + 1}</button>
           </div>
         ))}
         <input type="submit" value="Compare!" />
