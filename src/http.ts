@@ -19,12 +19,20 @@ export function getCompetitorInfo(competitorId: string): Promise<CompetitorInfo>
 }
 
 export async function getNameForCompetitor(competitorId: string) {
-    return fetch(`${BASE_URL}/${competitorId}`)
-        .then(resp => resp.text())
-        .then(html => {
-            const name = html.match(NAME_INSIDE_TITLE_TAG_PATTERN);
-            return name ? name[1] : "Name unknown";
-        })
+    let name;
+    while (!name) {
+        try {
+            fetch(`${BASE_URL}/${competitorId}`)
+                .then(resp => resp.text())
+                .then(html => {
+                    const parsedName = html.match(NAME_INSIDE_TITLE_TAG_PATTERN);
+                    name = parsedName ? parsedName[1] : "Name unknown (private profile)";
+                });
+        } catch (e) {
+            await sleep(800);
+        }
+    }
+    return name;
 }
 
 export async function getMatchesForCompetitor(competitorId: string) {
@@ -37,8 +45,7 @@ async function getMatches(input: string): Promise<Match[]> {
         try {
             data = await fetch(input).then(resp => resp.json());
         } catch (_e) {
-            await sleep(800);
-        }
+            await sleep(800);        }
     }
     return data.next_page_url
         ? parseMatches(data).concat(await getMatches(data.next_page_url))
