@@ -11,12 +11,15 @@ type CompetitorsFormEvent = FormEvent<HTMLFormElement> & {
   };
 };
 
+type InputType = {
+  inputs: { input: string; }[];
+}
+
 export const CompetitorsForm = ({
   setCompetitors
 }: { setCompetitors: Dispatch<SetStateAction<CompetitorInfo[] | undefined>> }) => {
   // const [competitorNames, setCompetitorsNames] = useState<string[]>([]);
-  // const [inputs, setInputs] = useState<string[]>(["", ""]);
-  const { control, register, handleSubmit } = useForm({
+  const { control, register, handleSubmit } = useForm<InputType>({
     defaultValues: {
       inputs: [
         { input: "" },
@@ -26,14 +29,11 @@ export const CompetitorsForm = ({
   });
   const { fields, remove, append } = useFieldArray({ control, name: "inputs" });
 
-  const handleFormSubmit = (data: any) => {
-    console.log(data);
-    // e.preventDefault();
-    // Promise.all(Array.from(inputs.map(({input}: {input: string}) => getCompetitorInfo(input))))
-    //   .then(info => {
-    //     setCompetitors(info);
-    //     // setCompetitorsNames(info.map(i => i.name));
-    //   });
+  const handleFormSubmit = (data: InputType) => {
+    const promises: Promise<CompetitorInfo>[] = Array.from(
+      data.inputs.map(({ input }: { input: string }) => getCompetitorInfo(input))
+    );
+    Promise.all(promises).then(info => setCompetitors(info));
   };
 
   const addInput = (e: MouseEvent<HTMLButtonElement>) => {
@@ -52,7 +52,6 @@ export const CompetitorsForm = ({
             <br />
             <button type="button" onClick={() => remove(index)}>Remove input {index + 1}</button>
           </div>
-          // <CompetitorInput key={input.id} num={index} register={register} /* state={{ inputs: inputs, setter: setInputs }} */ removeInput={remove} /* name={competitorNames[index]} */ />
         ))}
         <input type="submit" value="Compare!" />
         <button type="button" onClick={addInput}>Add input</button>
