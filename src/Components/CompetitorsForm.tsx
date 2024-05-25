@@ -1,5 +1,5 @@
-import { Dispatch, MouseEvent, SetStateAction } from "react";
-import { getCompetitorInfo, } from "../http";
+import { ChangeEvent, Dispatch, MouseEvent, SetStateAction } from "react";
+import { getCompetitorInfo, getNameForCompetitor, } from "../http";
 import { CompetitorInfo } from "../types";
 import { useFieldArray, useForm } from "react-hook-form";
 
@@ -31,7 +31,7 @@ export const CompetitorsForm = ({
     );
     Promise.all(promises).then((info) => {
       setCompetitors(info);
-      info.forEach((i, index) => update(index, {input: i.id.toString(), name: i.name}));
+      info.forEach((i, index) => update(index, { input: i.id.toString(), name: i.name }));
     });
   };
 
@@ -45,14 +45,29 @@ export const CompetitorsForm = ({
     MAY_REMOVE_INPUTS_CONDITION && remove(index);
   }
 
+  const reportInput = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    update(index, {
+      input: e.target.value,
+      name: fields[index].name // not updated
+    });
+  }
+
+  const checkName = (index: number) => {
+    getNameForCompetitor(fields[index].input)
+      .then(name => update(index, {
+        input: fields[index].input, // not updated
+        name: name
+      }));
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         {fields.map((input, index) => (
           <div key={input.id}>
             <label htmlFor={`competitor${index}`}>competitor {index + 1}</label>
-            <input {...register(`inputs.${index}.input` as const)} type="text" id={`competitor${index}`} />
-            <button type="button">Check</button>
+            <input {...register(`inputs.${index}.input` as const)} type="text" id={`competitor${index}`} onChange={e => reportInput(e, index)} />
+            <button type="button" onClick={() => checkName(index)}>Check</button>
             <br />
             <label htmlFor={`name${index}`}>Name: </label>
             <input type="text" id={`name${index}`} disabled value={input.name} readOnly={true} />
