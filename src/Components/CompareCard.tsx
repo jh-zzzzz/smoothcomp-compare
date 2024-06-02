@@ -3,7 +3,7 @@ import { CompetitorInfo } from "../types";
 import { getOppsInCommon } from "../util";
 
 export const CompareCard = ({ competitors }: { competitors: CompetitorInfo[] }) => {
-  const [oppsInCommon, setOppsInCommon] = useState<Array<number>>();
+  const [oppsInCommon, setOppsInCommon] = useState<Array<{id:number;name:string}>>();
 
   useEffect(() => {
     setOppsInCommon(Array.from(getOppsInCommon(competitors).keys()));
@@ -22,10 +22,10 @@ export const CompareCard = ({ competitors }: { competitors: CompetitorInfo[] }) 
   return (
     <ul>
       {oppsInCommon && oppsInCommon.map(opp => (
-          <li key={opp}>
-            {opp}
+          <li key={opp.id}>
+            {opp.name}
             <ul>
-            {competitors.map(competitor => (competitor.matches.filter(match => match.opponent.id === opp)
+            {competitors.map(competitor => (competitor.matches.filter(match => match.opponent.id === opp.id)
               .map(match => (
                 <li key={match.opponent.id.toString() + match.timestamp.toString() + competitor.id.toString()}>
                   {competitor.name} {match.isWinner ? "won" : "lost"} against {match.opponent.name} on {timestampToDate(match.timestamp)}
