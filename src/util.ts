@@ -20,7 +20,6 @@ export function getOppsInCommon(competitorsInfo: CompetitorInfo[]): Map<{id:numb
     const competitorsPerOpp = new Map<{id:number;name:string}, number[]>();
     let opps: {id:number;name:string}[] = [];
     for (const c of competitorsInfo) {
-        console.log(getOpps(c));
         getOpps(c).forEach(cOpp => {
             if (opps.every(opp => opp.id !== cOpp.id)) {
                 opps.push(cOpp);
