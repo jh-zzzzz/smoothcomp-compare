@@ -1,9 +1,19 @@
 import { CompetitorInfo } from "./types";
 
 export function getOpps(competitorInfo: CompetitorInfo) {
-    return competitorInfo.matches.map(match => {
+    const opps = competitorInfo.matches.map(match => {
         return {id: match.opponent.id, name: match.opponent.name}
     });
+
+    const seen = new Set<number>;
+    return opps.filter(opp => {
+        if (seen.has(opp.id)) {
+            return false;
+        } else {
+            seen.add(opp.id);
+            return true;
+        }
+    })
 }
 
 export function getOppsInCommon(competitorsInfo: CompetitorInfo[]): Map<{id:number;name:string}, number[]> {
